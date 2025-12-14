@@ -38,7 +38,9 @@ h1 {
 
 #app {
   max-width: 1280px;
-  margin: 0 auto;
+  width: 100%
+  ;
+  margin: 0 ;
   padding: 2rem;
   text-align: center;
 }
@@ -94,4 +96,49 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Nuevos estilos */
+#game-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 50px;
+  background-color: green;
+}
+
+section {
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+#card-image {
+  width: 200px;
+  height: auto;
+  border-radius: 15px;
+}
+
+#estado-juego {
+  margin-top: 20px;
+}
+
+#resultado {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: white
+}
+
+#controles {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  margin: 5px;
+  width: auto;
 }

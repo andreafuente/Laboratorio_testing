@@ -4,11 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/style.css" />
     <title>Vite + TS</title>
   </head>
   <body>
     <div id="app">
-      <h1>TypeScript Sandbox</h1>
+      <h1>Juego de las 7 1/2</h1>
+      <div id="game-container">
+        <img id="card-image" src="https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg" alt="Carta boca abajo" />
+        <Section>
+          <div id="estado-juego">
+            <p id="resultado">Puntos Jugador: <span id="puntuacion">0</span></p>
+            <p id="mensaje"></p>
+          </div>
+          <div id="controles">
+            <button id="pedir">Pedir Carta</button>
+            <button id="stop">Plantarse</button>
+            <button id="Nuevo">Nuevo Juego</button>
+        </div>
+      </Section>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
