@@ -20,9 +20,9 @@ const bloquearBoton = (
   boton: HTMLButtonElement,
   deshabilitado: boolean
 ): void => {//función que bloquea botones según el valor de deshabilitado.
-  if (botonPlantarse !== null &&
-      botonPlantarse !== undefined &&
-      botonPlantarse instanceof HTMLButtonElement) {
+  if (boton !== null &&
+      boton !== undefined &&
+      boton instanceof HTMLButtonElement) {
   boton.disabled = deshabilitado;
 }
 }
@@ -150,7 +150,7 @@ const mostrarCarta = (nuevaCarta: Carta): void => {
         break;
     }
   }
-};
+}
 
 const gameOver = (): void => {
   //la función no devuelve nada solo pinta, trabaja con los puntos (tipo number).
@@ -243,7 +243,7 @@ if (
       //si el elemento existe (no es null ni undefined)
       escribirMensaje(mensaje); //pinta el mensaje en el elemento.
     }
-  };
+  }
   botonPlantarse.addEventListener("click", handlePlantarse); //añade un evento click al botón con id "plantarse" que llama a la función handlePlantarse cuando se hace clic.
 }
 
@@ -296,7 +296,7 @@ if (
       }
       escribirMensaje(mensaje); //pinta el mensaje en el elemento.
     }
-  };
+  }
 
   botonAdivina.addEventListener("click", handleAdivina); //añade un evento click al botón con id "adivina" que llama a la función handleAdivina cuando se hace clic.
 }
