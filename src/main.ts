@@ -17,11 +17,14 @@ interface Carta {
 }
 
 const bloquearBoton = (
-  boton: HTMLButtonElement | null,
+  boton: HTMLButtonElement,
   deshabilitado: boolean
 ): void => {//función que bloquea botones según el valor de deshabilitado.
-  if (!boton) return;
+  if (botonPlantarse !== null &&
+      botonPlantarse !== undefined &&
+      botonPlantarse instanceof HTMLButtonElement) {
   boton.disabled = deshabilitado;
+}
 }
 
 const escribirMensaje = (texto: string): void => {
@@ -169,20 +172,29 @@ const gameOver = (): void => {
 if (
   botonPedir !== null &&
   botonPedir !== undefined &&
-  botonPedir instanceof HTMLButtonElement
+  botonPedir instanceof HTMLButtonElement &&
+  botonPlantarse !== null &&
+  botonPlantarse !== undefined &&
+  botonPlantarse instanceof HTMLButtonElement &&
+  botonAdivina !== null &&
+  botonAdivina !== undefined &&
+  botonAdivina instanceof HTMLButtonElement
 ) {
+
   const handlePedirCarta = () => {
-    if (puntos <= 7.5) {
+    if (puntos <= 7.5) {//si los puntos actuales son menores o iguales a 7.5
       const nuevaCarta = dameCarta(); //llama a la función dameCarta y guarda el resultado en la variable nuevaCarta.
       mostrarCarta(nuevaCarta); //llama a la función mostrarCarta con el valor de nuevaCarta.
       puntos += nuevaCarta.puntos; ///actualiza el valor de puntos.
       mostrarPuntuacion(); //llama a la función mostrarPuntuacion con el valor de puntos.
     }
-    if (puntos > 7.5) {
+    else {
       gameOver(); //llama a la función gameOver.
       bloquearBoton(botonPedir, true); //desactiva el botón para que no se pueda seguir pidiendo cartas.
+      bloquearBoton(botonPlantarse, true); //desactiva el botón para que no se pueda seguir plantando.
+      bloquearBoton(botonAdivina, true); //desactiva el botón para que no se pueda seguir adivinando.
     }
-  };
+  }
 
   botonPedir.addEventListener("click", handlePedirCarta); //añade un evento click al botón con id "pedir" que llama a la función handlePedirCarta cuando se hace clic.
 }
@@ -266,7 +278,7 @@ if (
       bloquearBoton(botonPlantarse, true); //desactiva el botón para que no se pueda seguir plantando.
       bloquearBoton(botonPedir, true); //desactiva el botón para que no se pueda seguir pidiendo cartas.
     }
-    
+
     const nuevaCarta = dameCarta(); //llama a la función dameCarta y guarda el resultado en la variable nuevaCarta.
     mostrarCarta(nuevaCarta); //llama a la función mostrarCarta con el valor de nuevaCarta.
     puntos += nuevaCarta.puntos; ///actualiza el valor de puntos.
