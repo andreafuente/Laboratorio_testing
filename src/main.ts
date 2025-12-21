@@ -6,7 +6,6 @@ const botonPlantarse = document.getElementById("stop"); //busca en el html el el
 const botonNuevaPartida = document.getElementById("nuevo"); //busca en el html el elemento con id "nuevo", lo guarda en la variable botonNuevo, se le informa que es un elemento de tipo button.
 const botonAdivina = document.getElementById("adivina"); //busca en el html el elemento con id "adivina", lo guarda en la variable botonAdivina, se le informa que es un elemento de tipo button.
 
-
 let puntos: number = 0; //variable global que guarda los puntos actuales del jugador
 let mensaje: string = ""; //variable global que guarda el mensaje final del juego
 interface Carta {
@@ -59,6 +58,9 @@ const resetJuego = (): void => {
   });
   escribirMensaje("");
 }
+
+document.addEventListener("DOMContentLoaded", resetJuego); //cuando el contenido de laweb se haya cargado, llama a la función resetJuego para iniciar el juego.
+
 
 const mostrarPuntuacion = (): void => {
   //la función no devuelve nada solo pinta, trabaja con los puntos (tipo number).
