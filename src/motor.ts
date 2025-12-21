@@ -1,7 +1,10 @@
-import { puntosMaximos, Carta } from "./model"; //importa los elementos Carta, puntosMaximos y cartaBocaAbajo desde el archivo model.ts
+import { puntosMaximos, Carta, Partida } from "./model"; //importa los elementos Carta, puntosMaximos y cartaBocaAbajo desde el archivo model.ts
 
-
-export const cartaAleatoria = (): number => Math.floor(Math.random() * 10) + 1; //genera un número aleatorio entre 1 y 10 y lo guarda en la variable cartaAleatoria.
+export const crearPartida = (): Partida => {
+  //genera una nueva partida con puntos iniciales a 0.
+  return { puntos: 0 };
+}
+const cartaAleatoria = (): number => Math.floor(Math.random() * 10) + 1; //genera un número aleatorio entre 1 y 10 y lo guarda en la variable cartaAleatoria.
 
 export const dameCarta = (): Carta => {
   // genera una función que transforma la carta aleatoria en una carta de la baraja .
@@ -12,28 +15,28 @@ export const dameCarta = (): Carta => {
   return { numero: numeroFinal, src: "", alt: "", puntos: puntosCarta };
 };
 
-export const gameOver = (puntos: number): boolean => {
+export const gameOver = (partida:Partida): boolean => {
   //la función no devuelve nada solo pinta, trabaja con los puntos (tipo number).
-  if (puntos > puntosMaximos) {
+  if (partida.puntos > puntosMaximos) {
     return true; //si los puntos actuales son mayores que puntosMaximos, devuelve true.
   }
   return false; //si no, devuelve false.
 };
 
- export const estadoMensaje = (puntos: number): string => {
+ export const estadoMensaje = (partida:Partida): string => {
     switch (
       true //evalúa las condiciones de los puntos actuales para determinar el mensaje final.
     ) {
-      case puntos === puntosMaximos:
+      case partida.puntos === puntosMaximos:
         return"🥳 ¡Lo has clavado! ¡Enhorabuena! 🎈🎊";
         break;
-      case puntos >= 6 && puntos <= 7:
+      case partida.puntos >= 6 && partida.puntos <= 7:
         return "😊 Casi casi...";
         break;
-      case puntos >= 4 && puntos < 6:
+      case partida.puntos >= 4 && partida.puntos < 6:
         return "Te ha entrado el canguelo eh? 😅";
         break;
-      case puntos < 4:
+      case partida.puntos < 4:
         return "🙄 Has sido muy conservador.";
         break;
       default:
@@ -45,8 +48,8 @@ export const mensajeGameOver = (): string => {
   return "😟 Game Over. Has perdido, otra vez será"; //devuelve el mensaje final
 };
 
-export const mensajeAdivina = (puntos: number): string => {
-      return puntos > puntosMaximos
+export const mensajeAdivina = (partida:Partida): string => {
+      return partida.puntos > puntosMaximos
         ? "😉 Bien jugado." //cambia el contenido de texto del mensaje.
         : "😕 Te has rendido demasiado pronto."; //cambia el contenido de texto del mensaje.
     };

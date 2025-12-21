@@ -1,8 +1,8 @@
-import {cartaBocaAbajo, puntosMaximos} from "./model"; //importa los elementos Carta, puntosMaximos y cartaBocaAbajo desde el archivo model.ts
-import { dameCarta,gameOver, mensajeAdivina, mensajeGameOver, estadoMensaje } from "./motor"; //importa la función dameCarta desde el archivo motor.ts
+import {cartaBocaAbajo, puntosMaximos, Partida} from "./model"; //importa los elementos Carta, puntosMaximos y cartaBocaAbajo desde el archivo model.ts
+import { dameCarta,gameOver, mensajeAdivina, mensajeGameOver, estadoMensaje, crearPartida } from "./motor"; //importa la función dameCarta desde el archivo motor.ts
 import {botonPedir,botonPlantarse,botonNuevaPartida,botonAdivina,bloquearBoton,escribirMensaje,mostrarCarta,mostrarPuntuacion} from "./ui";
 
-export let puntos: number = 0; //variable global que guarda los puntos actuales del jugador
+let partida: Partida = crearPartida(); //crea una nueva partida llamando a la función crearPartida y guarda el resultado en la variable partida.
 
 const resetJuego = (): void => {
   if (
@@ -20,13 +20,13 @@ const resetJuego = (): void => {
     bloquearBoton(botonAdivina, false); //Habilita el botón para que se pueda adivinar.
   }
 
-  puntos = 0;
-  mostrarPuntuacion(puntos);
+  partida.puntos = 0;
+  mostrarPuntuacion(partida.puntos);
   mostrarCarta(cartaBocaAbajo);
   escribirMensaje("");
 };
 
-document.addEventListener("DOMContentLoaded", resetJuego); //cuando el contenido de laweb se haya cargado, llama a la función resetJuego para iniciar el juego.
+document.addEventListener("DOMContentLoaded", crearPartida); //cuando el contenido de laweb se haya cargado, llama a la función resetJuego para iniciar el juego.
 
 if (
   botonNuevaPartida !== null &&
@@ -71,8 +71,8 @@ if (
 ) {
 
   const handlePedirCarta = () => {
-    if (puntos > puntosMaximos) return;//si los puntos actuales son mayores o iguales a 7.5, no hace nada.
-    if(puntos === 0) {
+    if (partida.puntos > puntosMaximos) return;//si los puntos actuales son mayores o iguales a 7.5, no hace nada.
+    if(partida.puntos === 0) {
       if (
   botonAdivina !== null &&
   botonAdivina !== undefined &&
@@ -83,10 +83,10 @@ if (
   }
       const nuevaCarta = dameCarta(); //llama a la función dameCarta y guarda el resultado en la variable nuevaCarta.
       mostrarCarta(nuevaCarta); //llama a la función mostrarCarta con el valor de nuevaCarta.
-      puntos += nuevaCarta.puntos; ///actualiza el valor de puntos.
-      mostrarPuntuacion(puntos); //llama a la función mostrarPuntuacion con el valor de puntos.
-    
-    if (gameOver(puntos)) {
+      partida.puntos += nuevaCarta.puntos; ///actualiza el valor de puntos.
+      mostrarPuntuacion(partida.puntos); //llama a la función mostrarPuntuacion con el valor de puntos.
+
+    if (gameOver(partida)) {
       //si la función gameOver devuelve true (los puntos actuales son mayores que 7.5)
       partidaFinalizada();
     }
@@ -106,11 +106,15 @@ if (
       botonPlantarse instanceof HTMLButtonElement &&
       botonPedir !== null &&
       botonPedir !== undefined &&
-      botonPedir instanceof HTMLButtonElement
+      botonPedir instanceof HTMLButtonElement &&
+      botonAdivina !== null &&
+      botonAdivina !== undefined &&
+      botonAdivina instanceof HTMLButtonElement
     ) {
       bloquearBoton(botonPlantarse, true); //desactiva el botón para que no se pueda seguir plantando.
       bloquearBoton(botonPedir, true); //desactiva el botón para que no se pueda seguir pidiendo cartas.
-      escribirMensaje(estadoMensaje(puntos)); //pinta el mensaje en el elemento.
+      bloquearBoton(botonAdivina, false); //activa el botón para que se pueda adivinar.
+      escribirMensaje(estadoMensaje(partida)); //pinta el mensaje en el elemento.
     }
   };
   botonPlantarse.addEventListener("click", handlePlantarse); //añade un evento click al botón con id "plantarse" que llama a la función handlePlantarse cuando se hace clic.
@@ -140,9 +144,9 @@ if (
     }
     const nuevaCarta = dameCarta(); //llama a la función dameCarta y guarda el resultado en la variable nuevaCarta.
     mostrarCarta(nuevaCarta); //llama a la función mostrarCarta con el valor de nuevaCarta.
-    puntos += nuevaCarta.puntos; ///actualiza el valor de puntos.
-    mostrarPuntuacion(puntos); //llama a la función mostrarPuntuacion 
-    const texto = mensajeAdivina(puntos); //llama a la función mensajeAdivina con el valor de puntos.
+    partida.puntos += nuevaCarta.puntos; ///actualiza el valor de puntos.
+    mostrarPuntuacion(partida.puntos); //llama a la función mostrarPuntuacion 
+    const texto = mensajeAdivina(partida) //llama a la función mensajeAdivina con el valor de puntos.
 
     escribirMensaje(texto); //pinta el mensaje en el elemento.
   };

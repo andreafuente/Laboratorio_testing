@@ -13,3 +13,7 @@ export const cartaBocaAbajo: Carta = {
 }
 
 export const puntosMaximos = 7.5;
+export interface Partida {
+  puntos: number;
+}
+
