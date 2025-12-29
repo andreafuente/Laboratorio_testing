@@ -9,11 +9,12 @@ const numeroBase = (): number => {
   //función que transforma el número de carta aleatoria en el número de carta de la baraja.
 };
 
-const numeroFinal = (numeroBase: number): number => {
+export const numeroFinal = (numeroBase: number): number => {
   return numeroBase > 7 ? numeroBase + 2 : numeroBase;
   //función que transforma el número de carta de la baraja en el número final de la carta (teniendo en cuenta las figuras).
 };
-const puntosCarta = (numeroFinal: number): number => {
+
+export const puntosCarta = (numeroFinal: number): number => {
   return numeroFinal > 7 ? 0.5 : numeroFinal;
   //función que transforma el número final de la carta en los puntos de la carta (teniendo en cuenta las figuras).
 };
@@ -30,7 +31,7 @@ const sumarCarta = (partida:Partida, carta: Carta): void => {
   partida.puntos += carta.puntos;
 };
 
-const hacerJugada = (partida:Partida): Carta => {
+export const hacerJugada = (partida:Partida): Carta => {
   const nuevaCarta = dameCarta();
   sumarCarta(partida, nuevaCarta);
   return nuevaCarta;
@@ -67,7 +68,7 @@ export const plantarse = (partida: Partida): EstadoPartida => {
 
 export const adivinar = (partida: Partida): { carta: Carta; estado: EstadoPartida } => {
  const carta = hacerJugada(partida);
- 
+
   return partida.puntos > puntosMaximos
     ? { carta, estado: "ADIVINA_SE_PASA" }
     : { carta, estado: "ADIVINA_NO_SE_PASA" };
