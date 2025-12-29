@@ -1,13 +1,7 @@
-import { Carta, Partida, crearPartida, cartaBocaAbajo } from "./model"; //importa los elementos Carta y puntosMáximos desde el archivo model.ts
-import {
-  hacerJugada,
-  hasPerdido,
-  hasGanado,
-  obtenerMensajeAdivina,
-  mensajeGameOver,
-  mensajeVictoria,
-  obtenerMensajePlantarse,
-} from "./motor";
+import { Carta, Partida, crearPartida, cartaBocaAbajo } from "./model"; //importa los elementos cartabocabajo, Carta y puntosMáximos desde el archivo model.ts
+import {obtenerMensajePorEstado, jugar, plantarse, adivinar
+  
+} from "./motor"; //importa la función obtenerMensajePorEstado desde el archivo motor.ts
 
 const puntuacionContainer = document.getElementById("puntuacion"); //busca en el html el elemento con id "puntuacion" y lo guarda en la variable puntuacionContainer.
 const cartaContainer = document.getElementById("card-image"); //busca en el html el elemento con id "card-image" y lo guarda en la variable cartaContainer.
@@ -188,20 +182,19 @@ export const resetJuego = (): void => {
 };
 
 export const handlePedirCarta = (): void => {
-  const carta = hacerJugada(partida);
-  pintarJugada(partida, carta);
+  const resultado = jugar(partida);              
+  pintarJugada(partida, resultado.carta);       
 
-  if (hasPerdido(partida)) {
-    terminarPartida(mensajeGameOver());
-  }
-
-  if (hasGanado(partida)) {
-    terminarPartida(mensajeVictoria());
-  }
+  if (resultado.estado !== "JUGANDO") {
+    terminarPartida(obtenerMensajePorEstado(resultado.estado));
+    return;
+  } 
+    escribirMensaje("");                         
 };
 
 export const handlePlantarse = () => {
-  escribirMensaje(obtenerMensajePlantarse(partida.puntos));
+  const resultado = plantarse(partida);
+  escribirMensaje(obtenerMensajePorEstado(resultado));
   bloquearPedirPlantar(true);
 };
 
@@ -210,8 +203,7 @@ export const handleNuevaPartida = () => {
 };
 
 export const handleAdivina = () => {
-  const carta = hacerJugada(partida);
-  pintarJugada(partida, carta);
-  const mensajeFinal = obtenerMensajeAdivina(partida.puntos);
-  terminarPartida(mensajeFinal);
+  const resultado = adivinar(partida);              
+  pintarJugada(partida, resultado.carta);       
+  terminarPartida(obtenerMensajePorEstado(resultado.estado));                
 };

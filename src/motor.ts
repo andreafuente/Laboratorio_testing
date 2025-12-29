@@ -1,4 +1,4 @@
-import { puntosMaximos, Carta, Partida} from "./model"; //importa los elementos Carta, puntosMaximos y cartaBocaAbajo desde el archivo model.ts
+import { puntosMaximos, Carta, Partida, EstadoPartida} from "./model"; //importa los elementos Carta, puntosMaximos y cartaBocaAbajo desde el archivo model.ts
 
 
 
@@ -26,48 +26,86 @@ const dameCarta = (): Carta => {
   return { numero: final, src: "", alt: "", puntos: puntosDecarta };
 };
 
-export const hasPerdido = (partida:Partida): boolean => {
-  return partida.puntos > puntosMaximos;
-};
-
-export const hasGanado = (partida:Partida): boolean => {
-  return partida.puntos === puntosMaximos;
-
-};
-
-export const mensajeGameOver = (): string => {
-  return "😟 Game Over. Has perdido, otra vez será";
-};
-
-
-export const mensajeVictoria = (): string => {
-  return "🥳 ¡Lo has clavado! ¡Enhorabuena! 🎈🎊";
-}; 
-
-export const obtenerMensajePlantarse = (puntos: number): string => {
-  if (puntos >= 6 && puntos <= 7) return "😊 Casi casi...";
-  if (puntos >= 4 && puntos < 6) return "Te ha entrado el canguelo eh? 😅";
-  if (puntos < 4) return "🙄 Has sido muy conservador.";
-  return "Ups, algo ha ido mal 🙃.";
-};
-
 const sumarCarta = (partida:Partida, carta: Carta): void => {
   partida.puntos += carta.puntos;
 };
 
-export const hacerJugada = (partida:Partida): Carta => {
+const hacerJugada = (partida:Partida): Carta => {
   const nuevaCarta = dameCarta();
   sumarCarta(partida, nuevaCarta);
   return nuevaCarta;
 };
 
+export const jugar = (
+  partida: Partida
+): { carta: Carta; estado: EstadoPartida } => {
+  const carta = hacerJugada(partida);
 
+  if (partida.puntos > puntosMaximos) {
+    return { carta, estado: "HAS_PERDIDO" };
+  }
 
-export const obtenerMensajeAdivina = (puntos: number): string => {
-  if (puntos > puntosMaximos) return "😉 Bien jugado.";
-  if (puntos <= puntosMaximos) return "😕 Te has rendido demasiado pronto.";
-  return "Ups, algo ha ido mal 🙃.";
+  if (partida.puntos === puntosMaximos) {
+    return { carta, estado: "HAS_GANADO" };
+  }
+
+  return { carta, estado: "JUGANDO" };
 };
+
+
+
+export const plantarse = (partida: Partida): EstadoPartida => {
+  if (partida.puntos >= 6 && partida.puntos <= 7) {
+    return "PLANTADO_ALTO";
+  }
+
+  if (partida.puntos >= 4 && partida.puntos < 6) {
+    return "PLANTADO_MEDIO";
+  }
+      return "PLANTADO_BAJO";
+};
+
+export const adivinar = (partida: Partida): { carta: Carta; estado: EstadoPartida } => {
+ const carta = hacerJugada(partida);
+ 
+  return partida.puntos > puntosMaximos
+    ? { carta, estado: "ADIVINA_SE_PASA" }
+    : { carta, estado: "ADIVINA_NO_SE_PASA" };
+};
+
+export const obtenerMensajePorEstado = (estado: EstadoPartida): string => {
+  switch (estado) {
+    case "HAS_GANADO":
+      return "🥳 ¡Lo has clavado! ¡Enhorabuena! 🎈🎊";
+
+    case "HAS_PERDIDO":
+      return "😟 Game Over. Has perdido, otra vez será";
+
+    case "PLANTADO_ALTO":
+      return "😊 Casi casi...";
+
+    case "PLANTADO_MEDIO":
+      return "Te ha entrado el canguelo eh? 😅";
+
+    case "PLANTADO_BAJO":
+      return "🙄 Has sido muy conservador.";
+
+    case "ADIVINA_SE_PASA":
+      return "😉 Bien jugado.";
+
+    case "ADIVINA_NO_SE_PASA":
+      return "😕 Te has rendido demasiado pronto.";
+
+    default:
+      return "Ups, algo ha ido mal 🙃.";
+  }
+};
+
+
+
+
+
+
 
 
 

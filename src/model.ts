@@ -21,3 +21,13 @@ export const crearPartida = (): Partida => {
     puntos: 0
   };
 };
+
+export type EstadoPartida =
+  | "JUGANDO"
+  | "HAS_GANADO"
+  | "HAS_PERDIDO"
+  | "PLANTADO_ALTO"
+  | "PLANTADO_MEDIO"
+  | "PLANTADO_BAJO"
+  | "ADIVINA_SE_PASA"
+  | "ADIVINA_NO_SE_PASA";
